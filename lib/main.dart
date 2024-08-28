@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'chat_app.dart';
+import 'core/routing/app_router.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(ChatApp(appRouter: AppRouter(),));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
 
