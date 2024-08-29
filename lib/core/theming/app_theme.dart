@@ -15,55 +15,21 @@ abstract class AppTheme {
     color: AppColors.black
   );
 
-  static TextStyle font32lueBold = TextStyle(
-    fontSize: 32.sp,
+  static TextStyle font24WhiteBold = TextStyle(
+      fontSize: 24.sp,
       fontWeight: FontWeightHelper.bold,
-    color: AppColors.primaryColor
+      color: AppColors.white
   );
 
-  static TextStyle font24BlueBold = TextStyle(
-    fontSize: 24.sp,
-    fontWeight: FontWeightHelper.bold,
-    color: AppColors.primaryColor,
-  );
-
-  static TextStyle font13BlueRegular = TextStyle(
-    fontSize: 13.sp,
-    fontWeight: FontWeightHelper.regular,
-    color: AppColors.primaryColor,
-  );
-
-  static TextStyle font13BlueSemiBold = TextStyle(
-    fontSize: 13.sp,
-    fontWeight: FontWeightHelper.semiBold,
-    color: AppColors.primaryColor
-  );
-
-  static TextStyle font14DarkBlueMedium = TextStyle(
-    fontSize: 14.sp,
-    fontWeight: FontWeightHelper.medium,
-    color: AppColors.darkBlue,
-  );
-
-  static TextStyle font13DarkBlueRegular = TextStyle(
-    fontSize: 13.sp,
-    fontWeight: FontWeightHelper.regular,
-    color: AppColors.darkBlue
-  );
   static TextStyle font13BlackRegular = TextStyle(
       fontSize: 13.sp,
       fontWeight: FontWeightHelper.regular,
-      color: AppColors.black
+      color: AppColors.black,
   );
 
-  static TextStyle font13DarkBlueMedium = TextStyle(
-      fontSize: 13.sp,
-      fontWeight: FontWeightHelper.medium,
-      color: AppColors.darkBlue
-  );
 
-  static TextStyle font13GreyBold = TextStyle(
-      fontSize: 13.sp,
+  static TextStyle font18GreyBold = TextStyle(
+      fontSize: 18.sp,
       fontWeight: FontWeightHelper.bold,
       color: AppColors.grey,
   );

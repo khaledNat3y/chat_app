@@ -1,5 +1,6 @@
 import 'package:chat_app/core/routing/routes.dart';
 import 'package:chat_app/features/login/ui/login_screen.dart';
+import 'package:chat_app/features/register/ui/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -7,6 +8,8 @@ class AppRouter {
     switch (settings.name) {
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case Routes.register:
+        return MaterialPageRoute(builder: (_) => const RegisterScreen());
       default:
         return MaterialPageRoute(builder: (_) => NoDefinedRouteScreen(settings: settings,));
     }
