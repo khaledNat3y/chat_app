@@ -3,8 +3,8 @@
 A new Flutter project.
 
 ## screens
-default screen preview: ![photo_2024-08-30_19-01-42](https://github.com/user-attachments/assets/fb1b87a4-9968-4308-8100-ec7b399db509)
-
+default screen preview: 
+![photo_2024-08-30_19-01-42](https://github.com/user-attachments/assets/fb1b87a4-9968-4308-8100-ec7b399db509)
 
 handle any error with snack bar:
 ![photo_2024-08-30_19-01-40](https://github.com/user-attachments/assets/c86b4e8d-1b9c-44b2-9ca6-211cd5eb9fd5)
