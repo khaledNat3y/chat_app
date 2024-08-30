@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'chat_app.dart';
+import 'core/di/dependency_injection.dart';
 import 'core/routing/app_router.dart';
 import 'firebase_options.dart';
 
@@ -13,6 +14,7 @@ void main() async{
   );
   /// to fix sp issue in release mode.
   ScreenUtil.ensureScreenSize();
+  configureDependencies();
   runApp(ChatApp(appRouter: AppRouter(),));
 }
 
