@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chat_app/core/helper/app_regex.dart';
 import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/features/register/ui/widgets/custom_text_form_field.dart';
 
+import '../../logic/register_cubit.dart';
+
 class RegisterForm extends StatefulWidget {
-  final GlobalKey<FormState> formKey;
-  const RegisterForm({super.key, required this.formKey});
+  const RegisterForm({super.key});
 
   @override
   RegisterFormState createState() => RegisterFormState();
 }
 
 class RegisterFormState extends State<RegisterForm> {
-  bool isObscureText = true;
-  late String firstName;
-  late String lastName;
-  late String email;
-  late String password;
+
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-
     return Form(
-      key: widget.formKey,
+      key: context.read<RegisterCubit>().formKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: SingleChildScrollView(
@@ -34,7 +32,7 @@ class RegisterFormState extends State<RegisterForm> {
               CustomTextFormField(
                 hintText: "First name",
                 onChanged: (text) {
-                  firstName = text;
+                  context.read<RegisterCubit>().firstName = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
@@ -47,7 +45,7 @@ class RegisterFormState extends State<RegisterForm> {
               CustomTextFormField(
                 hintText: "Last name",
                 onChanged: (text) {
-                  lastName = text;
+                  context.read<RegisterCubit>().lastName = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
@@ -60,13 +58,13 @@ class RegisterFormState extends State<RegisterForm> {
               CustomTextFormField(
                 hintText: "Email",
                 onChanged: (text) {
-                  email = text;
+                  context.read<RegisterCubit>().email = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
                     return 'Please enter an email';
                   }
-                  final emailRegex = AppRegex.isEmailValid(email);
+                  final emailRegex = AppRegex.isEmailValid(text);
                   if (!emailRegex) {
                     return 'Invalid email';
                   }
@@ -78,23 +76,23 @@ class RegisterFormState extends State<RegisterForm> {
                 suffixIcon: GestureDetector(
                   onTap: () {
                     setState(() {
-                      isObscureText = !isObscureText;
+                      context.read<RegisterCubit>().isObscureText = !context.read<RegisterCubit>().isObscureText;
                     });
                   },
                   child: Icon(
-                    isObscureText ? Icons.visibility_off : Icons.visibility,
+                    context.read<RegisterCubit>().isObscureText ? Icons.visibility_off : Icons.visibility,
                   ),
                 ),
                 hintText: "Password",
-                obscureText: isObscureText,
+                obscureText: context.read<RegisterCubit>().isObscureText,
                 onChanged: (text) {
-                  password = text;
+                  context.read<RegisterCubit>().password = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
                     return 'Please enter a password';
                   }
-                  // final passwordRegex = AppRegex.isPasswordValid(password);
+                  // final passwordRegex = AppRegex.isPasswordValid(text);
                   // if (!passwordRegex) {
                   //   return 'Password must be at least 8 characters long and contain at least one uppercase letter';
                   // }
