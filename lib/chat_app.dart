@@ -1,6 +1,7 @@
 import 'package:chat_app/core/routing/app_router.dart';
 import 'package:chat_app/core/routing/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatApp extends StatelessWidget {
@@ -14,9 +15,10 @@ class ChatApp extends StatelessWidget {
       ensureScreenSize: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        builder: EasyLoading.init(),
         title: 'ChatMate',
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: Routes.register,
+        initialRoute: Routes.login,
       ),
     );
   }

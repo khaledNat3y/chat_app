@@ -17,13 +17,15 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      cursorColor: AppColors.grey,
       validator: validator,
       onChanged: onChanged,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: hintStyle ?? AppTheme.font13BlackRegular.copyWith(color: AppColors.black.withOpacity(0.5)),
+        labelText: hintText,
+        labelStyle: hintStyle ?? AppTheme.font13BlackRegular.copyWith(color: AppColors.black.withOpacity(0.5)),
         suffixIcon: suffixIcon,
+        suffixIconColor: AppColors.blue,
         border: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.lightGrey),
         ),
@@ -31,7 +33,7 @@ class CustomTextFormField extends StatelessWidget {
           borderSide: BorderSide(color: AppColors.lightGrey),
         ),
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.lightGrey),
+          borderSide: BorderSide(color: AppColors.blue),
         ),
         errorBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.red),

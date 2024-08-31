@@ -1,10 +1,10 @@
 
-import 'package:chat_app/features/register/data/register_repository/remote_data_source/remote_data_source.dart';
+import 'package:chat_app/features/register/data/register_repository/register_remote_data_source/register_remote_data_source.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 @injectable
 class RegisterRepository {
-  final RemoteDataSource register;
+  final RegisterRemoteDataSource register;
   final InternetConnectionChecker internetConnectionChecker;
 
   RegisterRepository({
