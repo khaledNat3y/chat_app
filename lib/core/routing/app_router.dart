@@ -1,5 +1,7 @@
 import 'package:chat_app/core/di/dependency_injection.dart';
 import 'package:chat_app/core/routing/routes.dart';
+import 'package:chat_app/features/home/ui/home.dart';
+import 'package:chat_app/features/login/logic/login_cubit.dart';
 import 'package:chat_app/features/login/ui/login_screen.dart';
 import 'package:chat_app/features/register/ui/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +14,19 @@ class AppRouter {
   Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.login:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
+        return MaterialPageRoute(builder: (_) => BlocProvider(
+          create: (_) => getIt<LoginCubit>(),
+          child: const LoginScreen(),
+        ));
       case Routes.register:
         return MaterialPageRoute(builder: (_) => BlocProvider(
           create: (_) => getIt<RegisterCubit>(),
           child: const RegisterScreen(),
+        ));
+      case Routes.home:
+        return MaterialPageRoute(builder: (_) => BlocProvider(
+          create: (_) => getIt<RegisterCubit>(),
+          child: const Home(),
         ));
       default:
         return MaterialPageRoute(builder: (_) => NoDefinedRouteScreen(settings: settings,));

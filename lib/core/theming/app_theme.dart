@@ -58,4 +58,10 @@ abstract class AppTheme {
     color: AppColors.white,
   );
 
+  static TextStyle font14BlackRegular = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.regular,
+    color: AppColors.black,
+  );
+
 }

@@ -1,5 +1,6 @@
 import 'package:chat_app/core/constants/app_assets.dart';
 import 'package:chat_app/core/di/dependency_injection.dart';
+import 'package:chat_app/core/helper/extensions.dart';
 import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/core/routing/routes.dart';
 import 'package:chat_app/core/theming/app_colors.dart';
@@ -9,6 +10,7 @@ import 'package:chat_app/features/register/ui/widgets/custom_button.dart';
 import 'package:chat_app/features/register/ui/widgets/register_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -25,21 +27,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocListener<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state is RegisterSuccess) {
+          EasyLoading.dismiss();
           showDialog(
               barrierDismissible: false,
               context: context,
-              builder: (context) => AlertDialog(
-                    title: Text("Success Register"),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, Routes.login, (route) => false);
-                      },
-                      child: Text("Login", style: AppTheme.font13BlackRegular))
-                ],
-                  ));
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Success Register"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, Routes.login, (route) => false);
+                        },
+                        child:
+                        Text("Login", style: AppTheme.font13BlackRegular))
+                  ],
+                );
+              });
         } else if (state is RegisterError) {
+          EasyLoading.dismiss();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
@@ -47,9 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         } else {
-          const Center(
-            child: CircularProgressIndicator(),
-          );
+          EasyLoading.show(status: "Loading...");
         }
       },
       child: Stack(
@@ -66,6 +71,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
+              leading: IconButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: AppColors.white,
+                  )),
               elevation: 0,
               backgroundColor: Colors.transparent,
               title: Text(
@@ -79,10 +92,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   const RegisterForm(),
                   CustomButton(
+                    width: double.infinity,
                     onPressed: () {
                       validateForm();
                     },
                     text: "Create Account",
+                    backgroundColor: AppColors.white,
+                    color: AppColors.black.withOpacity(0.5),
                   ),
                   verticalSpace(height * 0.05),
                 ],
