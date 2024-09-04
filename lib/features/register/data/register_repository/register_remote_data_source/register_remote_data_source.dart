@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
+
 @injectable
 class RegisterRemoteDataSource {
   Future<void> registerWithFirebase(String email, String password) async {
@@ -15,7 +16,8 @@ class RegisterRemoteDataSource {
         throw 'The account already exists for that email.';
       }
     } catch (e) {
-      rethrow;
+      rethrow; // Allow the exception to be handled by the caller
     }
   }
+
 }
