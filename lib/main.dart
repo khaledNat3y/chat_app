@@ -1,3 +1,4 @@
+import 'package:chat_app/core/helper/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -16,6 +17,7 @@ void main() async{
   /// to fix sp issue in release mode.
   ScreenUtil.ensureScreenSize();
   configureDependencies();
+  SharedPreferencesHelper.cacheInitialization();
   runApp(ChatApp(appRouter: AppRouter(),));
 }
 

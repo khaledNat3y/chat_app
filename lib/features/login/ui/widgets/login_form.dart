@@ -2,8 +2,10 @@ import 'package:chat_app/core/routing/app_router.dart';
 import 'package:chat_app/features/login/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/helper/app_regex.dart';
+import '../../../../core/helper/shared_preferences.dart';
 import '../../../../core/helper/spacing.dart';
 import '../../../register/ui/widgets/custom_text_form_field.dart';
 
@@ -27,6 +29,7 @@ class _LoginFormState extends State<LoginForm> {
             hintText: "Email",
             onChanged: (text) {
               context.read<LoginCubit>().email = text;
+              _storeUserName(text);
             },
             validator: (text) {
               if (text == null || text.trim().isEmpty) {
@@ -70,5 +73,13 @@ class _LoginFormState extends State<LoginForm> {
         ],
       ),
     );
+  }
+  // Extract first word from email and store in SharedPreferences
+  void _storeUserName(String email) {
+    if (email.contains('@')) {
+      String firstName = email.split('@')[0];
+      firstName = firstName.replaceAll(RegExp(r'[0-9]'), '');
+      SharedPreferencesHelper.setData(key: 'FirstName', value: firstName);
+    }
   }
 }
