@@ -1,11 +1,13 @@
-import 'package:chat_app/core/helper/extensions.dart';
 import 'package:chat_app/core/helper/shared_preferences.dart';
+import 'package:chat_app/features/home/ui/widgets/browse_view.dart';
 import 'package:chat_app/features/home/ui/widgets/custom_drawer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chat_app/features/home/ui/widgets/custom_floating_action_button.dart';
+import 'package:chat_app/features/home/ui/widgets/my_rooms_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/constants/app_assets.dart';
-import '../../../core/routing/routes.dart';
 import '../../../core/theming/app_colors.dart';
 import '../../../core/theming/app_theme.dart';
 
@@ -16,12 +18,25 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,overlays: [SystemUiOverlay.top]);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    String firstName = SharedPreferencesHelper.getData(key: 'FirstName') ?? '';
     return Stack(
       children: [
         Container(
@@ -33,35 +48,81 @@ class _HomeState extends State<Home> {
             fit: BoxFit.cover,
           ),
         ),
-        Scaffold(
-          key: scaffoldKey,
-          backgroundColor: Colors.transparent,
-          drawer: const CustomDrawer(),
-          appBar: AppBar(
+        SafeArea(
+          child: Scaffold(
+
+            key: scaffoldKey,
             backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: AppColors.white,
-                size: 34,
-              ),
-              onPressed: () {
-                scaffoldKey.currentState?.openDrawer();
-              },
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: const CustomFloatingActionButton(),
+            drawer: const CustomDrawer(),
+            appBar: buildAppBar(),
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
+                  child: const MyRoomsView(),
+                ),
+                const BrowseView(),
+              ],
             ),
-            title: Text(
-              'Chat App',
-              style: AppTheme.font24WhiteBold,
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.search, color: AppColors.white,size: 34,))
-            ],
           ),
-          body: Center(),
         ),
       ],
     );
   }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.menu,
+          color: AppColors.white,
+          size: 34,
+        ),
+        onPressed: () {
+          scaffoldKey.currentState?.openDrawer();
+        },
+      ),
+      title: Text(
+        'Chat App',
+        style: AppTheme.font24WhiteBold,
+      ),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.search, color: AppColors.white, size: 34),
+        )
+      ],
+      bottom: TabBar(
+        controller: _tabController,
+        dividerColor: Colors.transparent,
+        indicatorColor: AppColors.white,
+        indicatorSize: TabBarIndicatorSize.label,
+        indicatorWeight: 3,
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        unselectedLabelColor: AppColors.lighterGrey,
+        tabs: [
+          Tab(
+            child: Text(
+              'My Rooms',
+              style: AppTheme.font20WhiteMedium,
+            ),
+          ),
+          Tab(
+            child: Text(
+              'Browse',
+              style: AppTheme.font20WhiteMedium,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
+

@@ -11,13 +11,13 @@ import 'firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferencesHelper.cacheInitialization();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   /// to fix sp issue in release mode.
   ScreenUtil.ensureScreenSize();
   configureDependencies();
-  SharedPreferencesHelper.cacheInitialization();
   runApp(ChatApp(appRouter: AppRouter(),));
 }
 
