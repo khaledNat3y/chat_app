@@ -27,6 +27,12 @@ abstract class AppTheme {
       color: AppColors.blue
   );
 
+  static TextStyle font20WhiteMedium = TextStyle(
+      fontSize: 20.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: AppColors.white
+  );
+
   static TextStyle font18BlackRegular = TextStyle(
       fontSize: 18.sp,
       fontWeight: FontWeightHelper.regular,

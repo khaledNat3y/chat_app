@@ -1,6 +1,7 @@
 import 'package:chat_app/core/helper/shared_preferences.dart';
 import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/features/home/data/models/drawer_item_model.dart';
+import 'package:chat_app/features/home/ui/widgets/logout_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -22,7 +23,9 @@ class CustomDrawer extends StatelessWidget {
     DrawerItemModel(
       title: "L o g o u t",
       icon: FontAwesomeIcons.arrowRightFromBracket,
-      onTap: () {},
+      onTap: () {
+        const LogoutWidget();
+      },
     ),
   ];
 
