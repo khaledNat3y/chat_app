@@ -1,4 +1,8 @@
+import 'package:chat_app/core/routing/app_router.dart';
+import 'package:chat_app/core/theming/app_theme.dart';
+import 'package:chat_app/features/login/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_assets.dart';
@@ -10,10 +14,17 @@ class LoginWithGoogleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () async{
+        await context.read<LoginCubit>().signInWithGoogle();
+      },
       child: Container(
+        width: MediaQuery.sizeOf(context).width * 0.6,
+        height: MediaQuery.sizeOf(context).width * 0.13,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          color: AppColors.white,
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(30.r),
+          border: Border.all(color: AppColors.black),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -22,10 +33,19 @@ class LoginWithGoogleWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: CircleAvatar(
-          radius: 23.r,
-          backgroundColor: AppColors.white,
-          child: Image.asset(AppAssets.google),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Image.asset(
+              AppAssets.google,
+              width: MediaQuery.sizeOf(context).width * 0.1,
+              height: MediaQuery.sizeOf(context).width * 0.1,
+            ),
+            Text(
+              'Sign in with Google',
+              style: AppTheme.font14BlackRegular,
+            ),
+          ],
         ),
       ),
     );
