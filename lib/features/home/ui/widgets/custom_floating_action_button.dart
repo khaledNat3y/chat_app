@@ -1,6 +1,10 @@
+import 'package:chat_app/chat_app.dart';
 import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/core/theming/app_theme.dart';
+import 'package:chat_app/features/home/data/models/group_chat_model.dart';
+import 'package:chat_app/features/home/logic/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theming/app_colors.dart';
 
@@ -15,17 +19,19 @@ class CustomFloatingActionButton extends StatelessWidget {
       backgroundColor: AppColors.blue,
       shape: const CircleBorder(),
       onPressed: () {
-        // Show bottom sheet when FAB is pressed
         showModalBottomSheet(
           context: context,
-          isScrollControlled: true, // Allows the bottom sheet to expand
+          isScrollControlled: true,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           builder: (context) {
-            return Padding(
-              padding: MediaQuery.of(context).viewInsets, // Adjust for keyboard
-              child: GroupChatForm(), // Create form for group chat
+            return BlocProvider.value(
+              value: context.read<HomeCubit>(), // Pass the HomeCubit instance
+              child: Padding(
+                padding: MediaQuery.of(context).viewInsets,
+                child: const GroupChatForm(),
+              ),
             );
           },
         );
@@ -46,12 +52,13 @@ class GroupChatForm extends StatefulWidget {
 }
 
 class GroupChatFormState extends State<GroupChatForm> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   String? groupName;
   String? groupType;
   String? description;
+  String? groupImage;
 
-  final List<String> _groupTypes = ['Movies', 'Sports', 'General Chat'];
+  final List<String> groupTypes = ['Movies', 'Sports', 'General Chat'];
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +75,11 @@ class GroupChatFormState extends State<GroupChatForm> {
           SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.4,
             height: MediaQuery.sizeOf(context).width * 0.2,
-            child: Image.asset("assets/images/group_image.png"),),
+            child: Image.asset("assets/images/group_image.png"),
+          ),
           verticalSpace(20),
           Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               children: [
                 // Group Name Field
@@ -97,10 +105,12 @@ class GroupChatFormState extends State<GroupChatForm> {
                   decoration: InputDecoration(
                     labelText: 'Group Type',
                     labelStyle: AppTheme.font14GreyRegular,
-                    border: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
-                    focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
+                    border: const OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.grey)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.grey)),
                   ),
-                  items: _groupTypes.map((String type) {
+                  items: groupTypes.map((String type) {
                     return DropdownMenuItem(
                       value: type,
                       child: Text(type),
@@ -124,7 +134,8 @@ class GroupChatFormState extends State<GroupChatForm> {
                   decoration: InputDecoration(
                     labelText: 'Enter Room Description',
                     labelStyle: AppTheme.font14GreyRegular,
-                    border: const UnderlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
+                    border: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.grey)),
                   ),
                   maxLines: 3,
                   onSaved: (value) => description = value,
@@ -141,18 +152,22 @@ class GroupChatFormState extends State<GroupChatForm> {
                   height: MediaQuery.sizeOf(context).width * 0.13,
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(AppColors.blue),
-                      foregroundColor: WidgetStateProperty.all<Color>(AppColors.white),
-
+                      backgroundColor:
+                          WidgetStateProperty.all<Color>(AppColors.blue),
+                      foregroundColor:
+                          WidgetStateProperty.all<Color>(AppColors.white),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        // Perform the action after form submission
-                        print('Group Name: $groupName');
-                        print('Group Type: $groupType');
-                        print('Description: $description');
-                        Navigator.pop(context); // Close the bottom sheet
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        context.read<HomeCubit>().createGroupChat(
+                            GroupChatModel(
+                                title: groupName!,
+                                groupType: groupType!,
+                                description: description!,
+                                currentTime: DateTime.now(),));
+                        Navigator.pop(
+                            context); // Close the modal after creating the group
                       }
                     },
                     child: const Text('Create Group'),
