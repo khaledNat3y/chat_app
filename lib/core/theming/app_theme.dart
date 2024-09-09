@@ -15,6 +15,36 @@ abstract class AppTheme {
     color: AppColors.black
   );
 
+  static TextStyle font20BlackMedium = TextStyle(
+      fontSize: 20.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: AppColors.black
+  );
+
+  static TextStyle font20BlueMedium = TextStyle(
+      fontSize: 20.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: AppColors.blue
+  );
+
+  static TextStyle font20WhiteMedium = TextStyle(
+      fontSize: 20.sp,
+      fontWeight: FontWeightHelper.medium,
+      color: AppColors.white
+  );
+
+  static TextStyle font18BlackRegular = TextStyle(
+      fontSize: 18.sp,
+      fontWeight: FontWeightHelper.regular,
+      color: AppColors.black
+  );
+
+  static TextStyle font24BlueBold = TextStyle(
+      fontSize: 24.sp,
+      fontWeight: FontWeightHelper.bold,
+      color: AppColors.blue
+  );
+
   static TextStyle font24WhiteBold = TextStyle(
       fontSize: 24.sp,
       fontWeight: FontWeightHelper.bold,

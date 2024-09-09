@@ -25,26 +25,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
     double height = MediaQuery.of(context).size.height;
 
     return BlocListener<RegisterCubit, RegisterState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is RegisterSuccess) {
           EasyLoading.dismiss();
           showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text("Success Register"),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, Routes.login, (route) => false);
-                        },
-                        child:
-                        Text("Login", style: AppTheme.font13BlackRegular))
-                  ],
-                );
-              });
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text("Success Register"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      context.pushReplacementNamed(Routes.login);
+                    },
+                    child: Text("Login", style: AppTheme.font13BlackRegular),
+                  ),
+                ],
+              );
+            },
+          );
         } else if (state is RegisterError) {
           EasyLoading.dismiss();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -72,13 +72,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               leading: IconButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: AppColors.white,
-                  )),
+                onPressed: () {
+                  context.pop();
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: AppColors.white,
+                ),
+              ),
               elevation: 0,
               backgroundColor: Colors.transparent,
               title: Text(

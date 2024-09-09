@@ -26,7 +26,7 @@ class DontHaveAccount extends StatelessWidget {
             ),
             TextSpan(
               recognizer: TapGestureRecognizer()..onTap = () {
-                Navigator.pushNamed(context, Routes.register);
+                Navigator.pushReplacementNamed(context, Routes.register);
               },
               text: "Sign up",
               style: AppTheme.font18GreyBold.copyWith(color: AppColors.blue),
