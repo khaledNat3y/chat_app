@@ -7,6 +7,7 @@ import 'package:chat_app/features/register/ui/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../features/home/logic/home_cubit.dart';
 import '../../features/register/data/register_repository/register_repository.dart';
 import '../../features/register/logic/register_cubit.dart';
 
@@ -24,10 +25,7 @@ class AppRouter {
           child: const RegisterScreen(),
         ));
       case Routes.home:
-        return MaterialPageRoute(builder: (_) => BlocProvider(
-          create: (_) => getIt<RegisterCubit>(),
-          child: const Home(),
-        ));
+        return MaterialPageRoute(builder: (_) => const Home());
       default:
         return MaterialPageRoute(builder: (_) => NoDefinedRouteScreen(settings: settings,));
     }
