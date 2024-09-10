@@ -26,7 +26,7 @@ class ChatApp extends StatelessWidget {
           builder: EasyLoading.init(),
           title: 'ChatMate',
           onGenerateRoute: appRouter.generateRoute,
-          initialRoute: Routes.home,
+          initialRoute: Routes.login,
         ),
       ),
     );
