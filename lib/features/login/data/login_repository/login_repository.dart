@@ -18,4 +18,11 @@ class LoginRepository {
       throw 'No Internet Connection';
     }
   }
+  Future<void> signInWithGoogle() async {
+    if (await internetConnectionChecker.hasConnection) {
+      await remoteDataSource.signInWithGoogle();
+    }else {
+      throw 'No Internet Connection';
+    }
+  }
 }
