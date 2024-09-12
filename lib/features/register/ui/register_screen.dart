@@ -1,5 +1,4 @@
 import 'package:chat_app/core/constants/app_assets.dart';
-import 'package:chat_app/core/di/dependency_injection.dart';
 import 'package:chat_app/core/helper/extensions.dart';
 import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/core/routing/routes.dart';

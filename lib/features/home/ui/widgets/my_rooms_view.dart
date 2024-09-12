@@ -1,14 +1,8 @@
-import 'package:chat_app/chat_app.dart';
 import 'package:chat_app/core/helper/shared_preferences.dart';
-import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/features/home/logic/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart'; // Import for formatting date and time
 
-import '../../../../core/theming/app_colors.dart';
-import '../../../../core/theming/app_theme.dart';
 import 'custom_card_widget.dart';
 
 class MyRoomsView extends StatefulWidget {
@@ -41,8 +35,7 @@ class _MyRoomsViewState extends State<MyRoomsView> {
 
   @override
   Widget build(BuildContext context) {
-    String currentTime = DateFormat('h:mm a').format(
-        DateTime.now()); // Format time to 12-hour format with AM/PM
+     // Format time to 12-hour format with AM/PM
 
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {

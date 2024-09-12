@@ -1,16 +1,12 @@
-import 'package:chat_app/core/helper/shared_preferences.dart';
-import 'package:chat_app/features/home/logic/home_cubit.dart';
 import 'package:chat_app/features/home/ui/widgets/browse_view.dart';
 import 'package:chat_app/features/home/ui/widgets/custom_drawer.dart';
 import 'package:chat_app/features/home/ui/widgets/custom_floating_action_button.dart';
 import 'package:chat_app/features/home/ui/widgets/my_rooms_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/constants/app_assets.dart';
-import '../../../core/di/dependency_injection.dart';
 import '../../../core/theming/app_colors.dart';
 import '../../../core/theming/app_theme.dart';
 
