@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/features/register/data/register_repository/register_repository.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';

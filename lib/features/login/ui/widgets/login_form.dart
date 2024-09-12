@@ -1,8 +1,6 @@
-import 'package:chat_app/core/routing/app_router.dart';
 import 'package:chat_app/features/login/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/helper/app_regex.dart';
 import '../../../../core/helper/shared_preferences.dart';
