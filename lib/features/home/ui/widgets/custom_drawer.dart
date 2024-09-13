@@ -1,30 +1,16 @@
 import 'package:chat_app/features/home/data/models/drawer_item_model.dart';
-import 'package:chat_app/features/home/ui/widgets/logout_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/helper/shared_preferences.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
 import 'custom_drawer_header.dart';
 import 'custom_drawer_items_list_view.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
-
-  static List<DrawerItemModel> drawerItems = [
-    DrawerItemModel(
-      title: "S e t t i n g s",
-      icon: FontAwesomeIcons.gear,
-      color: AppColors.blue,
-      onTap: () {},
-    ),
-    DrawerItemModel(
-      title: "L o g o u t",
-      icon: FontAwesomeIcons.arrowRightFromBracket,
-      onTap: () {
-        const LogoutWidget();
-      },
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +20,49 @@ class CustomDrawer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const CustomDrawerHeader(),
+
+          // Build drawer items list view
           CustomDrawerItemsListView(
-            drawerItems: drawerItems,
+            drawerItems: _getDrawerItems(context),
           ),
         ],
       ),
     );
   }
+
+  List<DrawerItemModel> _getDrawerItems(BuildContext context) {
+    return [
+      DrawerItemModel(
+        title: "S e t t i n g s",
+        icon: FontAwesomeIcons.gear,
+        color: AppColors.blue,
+        onTap: () {},
+      ),
+      DrawerItemModel(
+        title: "L o g o u t",
+        icon: FontAwesomeIcons.arrowRightFromBracket,
+        color: AppColors.red,
+        onTap: () {
+          // Call logout function on tap
+          _handleLogout(context);
+        },
+      ),
+    ];
+  }
+
+
+  Future<void> _handleLogout(BuildContext context) async {
+    try {
+      await SharedPreferencesHelper.clearAllData();
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pushReplacementNamed(Routes.login);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error signing out: $e'),
+          backgroundColor: AppColors.red,
+        ),
+      );
+    }
+  }
 }
-
-

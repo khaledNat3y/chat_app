@@ -1,8 +1,10 @@
+import 'package:chat_app/features/chat_room/ui/widgets/custom_chat_room_message.dart';
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/helper/shared_preferences.dart';
+import '../../../core/theming/app_colors.dart';
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({super.key});
@@ -42,7 +44,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   final message = _messages[index];
-                  return Messages(
+                  return CustomChatRoomMessage(
                     isUser: message.isUser,
                     message: message.message,
                     date: DateFormat('HH:mm').format(message.date),
@@ -59,10 +61,19 @@ class _ChatRoomState extends State<ChatRoom> {
                     flex: 15,
                     child: TextFormField(
                       controller: _userMessage,
+                      cursorColor: AppColors.primaryColor,
                       decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                            const BorderSide(color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(50)),
                         border: OutlineInputBorder(
                             borderSide:
                                 const BorderSide(color: Colors.deepOrange),
+                            borderRadius: BorderRadius.circular(50)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                            const BorderSide(color: AppColors.blue),
                             borderRadius: BorderRadius.circular(50)),
                         label: const Text("Ask Gemini..."),
                       ),
@@ -74,7 +85,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     iconSize: 30,
                     style: ButtonStyle(
                       backgroundColor:
-                          WidgetStateProperty.all(Colors.deepPurple),
+                          WidgetStateProperty.all(AppColors.primaryColor),
                       foregroundColor: WidgetStateProperty.all(Colors.white),
                       shape: WidgetStateProperty.all(
                         const CircleBorder(),
@@ -144,52 +155,7 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 }
 
-class Messages extends StatelessWidget {
-  final bool isUser;
-  final String message;
-  final String date;
 
-  const Messages(
-      {super.key,
-      required this.isUser,
-      required this.message,
-      required this.date});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(15),
-      margin: const EdgeInsets.symmetric(vertical: 15).copyWith(
-        left: isUser ? 100 : 10,
-        right: isUser ? 10 : 100,
-      ),
-      decoration: BoxDecoration(
-        color: isUser ? Colors.deepPurple : Colors.grey.shade200,
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(30),
-          bottomLeft: isUser ? const Radius.circular(30) : Radius.zero,
-          topRight: const Radius.circular(30),
-          bottomRight: isUser ? Radius.zero : const Radius.circular(30),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            message,
-            style: TextStyle(color: isUser ? Colors.white : Colors.black),
-          ),
-          Text(
-            date,
-            style: TextStyle(color: isUser ? Colors.white : Colors.black),
-          ),
-        ],
-      ),
-    );
-  }
-
-}
 
 class Message {
   final bool isUser;

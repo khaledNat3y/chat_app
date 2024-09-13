@@ -5,6 +5,7 @@ import 'package:chat_app/core/helper/shared_preferences.dart';
 import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/core/routing/routes.dart';
 import 'package:chat_app/features/home/logic/home_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theming/app_colors.dart';
@@ -31,18 +32,15 @@ class _MyRoomsViewState extends State<MyRoomsView> {
   }
 
   void _loadSavedData() async {
-    // Retrieve saved data from SharedPreferences
     savedTitle = await SharedPreferencesHelper.getData(key: "groupTitle");
     savedType = await SharedPreferencesHelper.getData(key: "groupType");
     savedTime = await SharedPreferencesHelper.getData(key: "groupCreatedTime");
 
-    // Trigger UI rebuild after loading saved data
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-     // Format time to 12-hour format with AM/PM
     String currentTime = DateFormat('h:mm a')
         .format(DateTime.now()); // Format time to 12-hour format with AM/PM
 
@@ -74,7 +72,7 @@ class _MyRoomsViewState extends State<MyRoomsView> {
 
                   return CustomCardWidget(
                     onTap: () {
-                      context.pushNamed(Routes.chatRoom,);
+                      context.pushNamed(Routes.chatRoom);
                     },
                     title: state.groups[index].title,
                     description: state.groups[index].description,

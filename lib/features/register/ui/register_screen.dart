@@ -36,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      context.pushReplacementNamed(Routes.login);
+                      context.pushNamed(Routes.login);
                     },
                     child: Text("Login", style: AppTheme.font13BlackRegular),
                   ),

@@ -24,7 +24,7 @@ class LoginWithGoogleWidget extends StatelessWidget {
           color: AppColors.white,
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(30.r),
-          border: Border.all(color: AppColors.black),
+          border: Border.all(color: AppColors.white),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),

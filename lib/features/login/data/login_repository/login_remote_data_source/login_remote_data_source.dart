@@ -1,3 +1,4 @@
+import 'package:chat_app/core/helper/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -29,7 +30,7 @@ class LoginRemoteDataSource {
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
+    extractUserNameFromGoogleAccount(googleUser);
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
@@ -41,5 +42,12 @@ class LoginRemoteDataSource {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  void extractUserNameFromGoogleAccount(GoogleSignInAccount? googleUser) {
+    String emailName = googleUser?.email ?? "";
+    emailName = emailName.split("@").first;
+    final emailNameWithoutNumbers = emailName.replaceAll(RegExp(r'\d'), '');
+    SharedPreferencesHelper.setData(key: "FirstNameFromGoogleAccount", value: emailNameWithoutNumbers);
   }
 }

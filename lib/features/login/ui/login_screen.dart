@@ -57,6 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
+              // leading: IconButton(onPressed: (){
+              //   context.pop();
+              // }, icon: const Icon(Icons.arrow_back)),
               backgroundColor: Colors.transparent,
               title: Text(
                 "Login",

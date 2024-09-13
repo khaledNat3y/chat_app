@@ -17,18 +17,17 @@ class LogoutWidget extends StatelessWidget {
         color: AppColors.white,
         size: 34,
       ),
-      onPressed: () async{
-        await SharedPreferencesHelper.clearAllData();
-        try {
-          await FirebaseAuth.instance.signOut();
-          context.pushReplacementNamed(Routes.login);
-        }catch(e){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Error signing out: $e'),
-            backgroundColor: AppColors.red,
-          ));
-        }
+      onPressed: () {
+        // Perform the navigation before the async operations
+        final navigator = Navigator.of(context);
+
+        // Execute async operations after storing the navigator
+        _logout(navigator, context);
       },
     );
+  }
+
+  Future<void> _logout(NavigatorState navigator, BuildContext context) async {
+
   }
 }

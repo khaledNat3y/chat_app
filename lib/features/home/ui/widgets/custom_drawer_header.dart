@@ -15,7 +15,8 @@ class CustomDrawerHeader extends StatefulWidget {
 }
 
 class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
-  String firstName = SharedPreferencesHelper.getData(key: "FirstName") ?? "";
+  String? firstName = SharedPreferencesHelper.getData(key: "FirstName");
+  String firstNameFromGoogleAccount = SharedPreferencesHelper.getData(key: "FirstNameFromGoogleAccount") ?? null;
   File? _profileImage;
 
   @override
@@ -60,7 +61,6 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
-      margin: EdgeInsets.symmetric(vertical: 10.h),
       decoration: const BoxDecoration(),
 
       child: Column(
@@ -70,7 +70,6 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
             "Chat App",
             style: AppTheme.font24BlueBold,
           ),
-          verticalSpace(10),
           Expanded(
             child: GestureDetector(
               onTap: _pickImage,
@@ -93,7 +92,7 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
                 text: "Welcome ",
                 style: AppTheme.font20BlackMedium,
                 children: [
-                  TextSpan(text: firstName, style: AppTheme.font20BlueMedium),
+                  TextSpan(text: firstName ?? firstNameFromGoogleAccount, style: AppTheme.font20BlueMedium),
                 ]),
           ),
         ],

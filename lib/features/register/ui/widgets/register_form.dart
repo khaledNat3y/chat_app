@@ -92,6 +92,10 @@ class RegisterFormState extends State<RegisterForm> {
                   if (text == null || text.trim().isEmpty) {
                     return 'Please enter a password';
                   }
+                  // final passwordRegex = AppRegex.isPasswordValid(text);
+                  // if (!passwordRegex) {
+                  //   return 'Invalid Password';
+                  // }
                   return null;
                 },
               ),
