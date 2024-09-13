@@ -25,4 +25,14 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginFailure(message: "Login failed. Please check your credentials and try again."));
     }
   }
+
+  Future<void> signInWithGoogle() async{
+    emit(LoginLoading());
+    try {
+      await repository.signInWithGoogle();
+      emit(LoginSuccess());
+    }catch (e) {
+      emit(LoginFailure(message: "Login failed. Please check your credentials and try again."));
+    }
+  }
 }

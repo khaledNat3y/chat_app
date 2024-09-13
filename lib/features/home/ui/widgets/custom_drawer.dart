@@ -1,12 +1,9 @@
-import 'package:chat_app/core/helper/shared_preferences.dart';
-import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/features/home/data/models/drawer_item_model.dart';
 import 'package:chat_app/features/home/ui/widgets/logout_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/theming/app_colors.dart';
-import '../../../../core/theming/app_theme.dart';
 import 'custom_drawer_header.dart';
 import 'custom_drawer_items_list_view.dart';
 
