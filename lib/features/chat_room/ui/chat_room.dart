@@ -1,177 +1,205 @@
-import 'dart:convert';
-
-import 'package:chat_app/core/helper/extensions.dart';
-import 'package:chat_app/core/theming/app_colors.dart';
-import 'package:chat_app/core/theming/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:intl/intl.dart';
+
 import '../../../core/helper/shared_preferences.dart';
 
 class ChatRoom extends StatefulWidget {
-  final String? title;
-  const ChatRoom({super.key, this.title});
+  const ChatRoom({super.key});
 
   @override
-  ChatRoomState createState() => ChatRoomState();
+  State<ChatRoom> createState() => _ChatRoomState();
 }
 
-class ChatRoomState extends State<ChatRoom> {
-  final TextEditingController messageController = TextEditingController();
-  final ScrollController scrollController = ScrollController();
-  List<Map<String, dynamic>> messages = [];
-  bool isSentByMe = true;
+class _ChatRoomState extends State<ChatRoom> {
+  final TextEditingController _userMessage = TextEditingController();
+
+  static const apiKey = "AIzaSyBCb1wOnFEWNqedFftsQwJGc1YGw6G5Z3A";
+
+  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+
+  final List<Message> _messages = [];
 
   @override
   void initState() {
     super.initState();
-    _loadMessages(); // Load messages when the chat screen is opened
+    SharedPreferencesHelper.cacheInitialization().then((_) {
+      loadMessagesFromPrefs();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            context.pop();
-          },
-          icon: const Icon(Icons.arrow_back, color: AppColors.white,),
-
+        appBar: AppBar(
+          title: const Text('Chat Room'),
         ),
-        backgroundColor: AppColors.blue,
-        elevation: 0,
-        surfaceTintColor: AppColors.white,
-        title: Text(widget.title ?? 'Chat Room', style: AppTheme.font24WhiteMedium,),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 8,
-            child: Card(
-              elevation: 5,
-              color: AppColors.white,
-              margin: EdgeInsets.all(10.w), // Use ScreenUtil for responsiveness
-              child: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: ListView.builder(
-                  controller: scrollController,
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    final message = messages[index];
-                    final isSentByMe = message['isSentByMe'];
-
-                    return Align(
-                      alignment: isSentByMe
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft, // Align based on sender
-                      child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 5.h),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10.h,
-                          horizontal: 15.w,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSentByMe ? AppColors.blue : Colors.grey[300],
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        child: Text(
-                          message['message'],
-                          style: TextStyle(
-                            color: isSentByMe ? Colors.white : Colors.black,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  final message = _messages[index];
+                  return Messages(
+                    isUser: message.isUser,
+                    message: message.message,
+                    date: DateFormat('HH:mm').format(message.date),
+                  );
+                },
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    cursorColor: AppColors.blue,
-                    controller: messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter your message...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.r),
-                        borderSide: const BorderSide(color: Colors.blue),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.r),
-                        borderSide: const BorderSide(color: Colors.blue),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 15,
+                    child: TextFormField(
+                      controller: _userMessage,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.deepOrange),
+                            borderRadius: BorderRadius.circular(50)),
+                        label: const Text("Ask Gemini..."),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 10.w),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: _sendMessage,
-                  color: Colors.blue,
-                  iconSize: 28.w,
-                ),
-              ],
-            ),
+                  const Spacer(),
+                  IconButton(
+                    padding: const EdgeInsets.all(15),
+                    iconSize: 30,
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all(Colors.deepPurple),
+                      foregroundColor: WidgetStateProperty.all(Colors.white),
+                      shape: WidgetStateProperty.all(
+                        const CircleBorder(),
+                      ),
+                    ),
+                    onPressed: () {
+                      sendMessage();
+                    },
+                    icon: const Icon(Icons.send),
+                  )
+                ],
+              ),
+            )
+          ],
+        ));
+  }
+  Future<void> sendMessage() async {
+    final message = _userMessage.text;
+    _userMessage.clear();
+
+    // Add the user's message
+    setState(() {
+      _messages.add(Message(isUser: true, message: message, date: DateTime.now()));
+    });
+
+    // Save updated messages to SharedPreferences
+    await saveMessagesToPrefs();
+
+    // Send the message to the AI model
+    final content = [Content.text(message)];
+    final response = await model.generateContent(content);
+
+    // Add AI response
+    setState(() {
+      _messages.add(Message(
+        isUser: false,
+        message: response.text ?? "",
+        date: DateTime.now(),
+      ));
+    });
+
+    // Save updated messages to SharedPreferences
+    await saveMessagesToPrefs();
+  }
+  Future<void> saveMessagesToPrefs() async {
+    final List<String> messagesToSave = _messages.map((message) {
+      return '${message.isUser}|${message.message}|${message.date.toIso8601String()}';
+    }).toList();
+
+    await SharedPreferencesHelper.setData(key: 'chat_messages', value: messagesToSave);
+  }
+  Future<void> loadMessagesFromPrefs() async {
+    final List<String>? savedMessages = SharedPreferencesHelper.getData(key: 'chat_messages') as List<String>?;
+
+    if (savedMessages != null) {
+      setState(() {
+        _messages.addAll(savedMessages.map((savedMessage) {
+          final parts = savedMessage.split('|');
+          return Message(
+            isUser: parts[0] == 'true',
+            message: parts[1],
+            date: DateTime.parse(parts[2]),
+          );
+        }).toList());
+      });
+    }
+  }
+}
+
+class Messages extends StatelessWidget {
+  final bool isUser;
+  final String message;
+  final String date;
+
+  const Messages(
+      {super.key,
+      required this.isUser,
+      required this.message,
+      required this.date});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(vertical: 15).copyWith(
+        left: isUser ? 100 : 10,
+        right: isUser ? 10 : 100,
+      ),
+      decoration: BoxDecoration(
+        color: isUser ? Colors.deepPurple : Colors.grey.shade200,
+        borderRadius: BorderRadius.only(
+          topLeft: const Radius.circular(30),
+          bottomLeft: isUser ? const Radius.circular(30) : Radius.zero,
+          topRight: const Radius.circular(30),
+          bottomRight: isUser ? Radius.zero : const Radius.circular(30),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            message,
+            style: TextStyle(color: isUser ? Colors.white : Colors.black),
+          ),
+          Text(
+            date,
+            style: TextStyle(color: isUser ? Colors.white : Colors.black),
           ),
         ],
       ),
     );
   }
 
-  void _sendMessage() {
-    String message = messageController.text;
-    if (message.isNotEmpty) {
-      setState(() {
-        messages.add({"message": message, "isSentByMe": isSentByMe});
-        messageController.clear();
-        isSentByMe = !isSentByMe;
-      });
-      _scrollToBottom();
-      _saveMessages(); // Save messages after sending
-    }
-  }
-
-  // Function to scroll to the bottom of the ListView
-  void _scrollToBottom() {
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-  }
-
-  // Load messages from SharedPreferences
-  void _loadMessages() async {
-    // Retrieve saved messages
-    List<String>? savedMessages = SharedPreferencesHelper.getData(key: 'chat_messages') as List<String>?;
-    if (savedMessages != null) {
-      setState(() {
-        messages = savedMessages.map((msg) {
-          final Map<String, dynamic> message = jsonDecode(msg);
-          return message;
-        }).toList();
-      });
-      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
-    }
-  }
-
-  // Save messages to SharedPreferences
-  void _saveMessages() async {
-    List<String> messageStrings = messages.map((msg) {
-      return jsonEncode(msg);
-    }).toList();
-    await SharedPreferencesHelper.setData(key: 'chat_messages', value: messageStrings);
-  }
-
-  @override
-  void dispose() {
-    messageController.dispose();
-    scrollController.dispose();
-    super.dispose();
-  }
 }
+
+class Message {
+  final bool isUser;
+  final String message;
+  final DateTime date;
+
+  Message({
+    required this.isUser,
+    required this.message,
+    required this.date,
+  });
+}
+// AIzaSyBCb1wOnFEWNqedFftsQwJGc1YGw6G5Z3A

@@ -25,8 +25,12 @@ class SharedPreferencesHelper {
     if (value is double) {
       return await prefs.setDouble(key, value);
     }
+    if(value is List<String>) {
+      return await prefs.setStringList(key, value);
+    }
     return false;
   }
+
 
   /// Get data
   static dynamic getData({required String key}) {
