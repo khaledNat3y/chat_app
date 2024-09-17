@@ -1,7 +1,7 @@
-import 'package:chat_app/core/helper/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+
 @injectable
 class LoginRemoteDataSource {
   Future<void> loginWithFirebase({
@@ -26,33 +26,20 @@ class LoginRemoteDataSource {
     }
   }
 
-
   Future<UserCredential> signInWithGoogle() async {
-    try {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      // extractUserNameFromGoogleAccount(googleUser);
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-      // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    }catch (e) {
-      rethrow;
-    }
-  }
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
 
-
-  void extractUserNameFromGoogleAccount(GoogleSignInAccount? googleUser) {
-    String emailName = googleUser?.email ?? "";
-    emailName = emailName.split("@").first;
-    final emailNameWithoutNumbers = emailName.replaceAll(RegExp(r'\d'), '');
-    SharedPreferencesHelper.setData(key: "FirstNameFromGoogleAccount", value: emailNameWithoutNumbers);
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

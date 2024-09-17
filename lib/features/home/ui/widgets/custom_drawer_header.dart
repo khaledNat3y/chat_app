@@ -1,10 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io'; // For handling file
 import '../../../../core/helper/shared_preferences.dart';
-import '../../../../core/helper/spacing.dart';
 import '../../../../core/theming/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CustomDrawerHeader extends StatefulWidget {
@@ -15,8 +15,8 @@ class CustomDrawerHeader extends StatefulWidget {
 }
 
 class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
-  String? firstName = SharedPreferencesHelper.getData(key: "FirstName");
-  String firstNameFromGoogleAccount = SharedPreferencesHelper.getData(key: "FirstNameFromGoogleAccount") ?? null;
+  // String? firstName = SharedPreferencesHelper.getData(key: "FirstName");
+  // String firstNameFromGoogleAccount = SharedPreferencesHelper.getData(key: "FirstNameFromGoogleAccount") ?? null;
   File? _profileImage;
 
   @override
@@ -50,11 +50,15 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
         // Save the selected image path to SharedPreferences
         SharedPreferencesHelper.setData(key: "profileImagePath", value: pickedFile.path);
 
-        print('Image selected: ${pickedFile.path}');
+        if (kDebugMode) {
+          print('Image selected: ${pickedFile.path}');
+        }
       }
     } else {
       // Handle the case when permission is not granted
-      print('Permission not granted');
+      if (kDebugMode) {
+        print('Permission not granted');
+      }
     }
   }
 
@@ -67,7 +71,7 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Chat App",
+            "MindMate",
             style: AppTheme.font24BlueBold,
           ),
           Expanded(
@@ -92,7 +96,7 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
                 text: AppLocalizations.of(context)!.welcome_message,
                 style: AppTheme.font20BlackMedium,
                 children: [
-                  TextSpan(text: "khaled", style: AppTheme.font20BlueMedium),
+                  TextSpan(text: " khaled ", style: AppTheme.font20BlueMedium),
                 ]),
           ),
         ],

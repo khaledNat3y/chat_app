@@ -2,7 +2,7 @@ import 'package:chat_app/features/chat_room/ui/widgets/custom_chat_room_message.
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../core/helper/shared_preferences.dart';
 import '../../../core/theming/app_colors.dart';
 
@@ -34,7 +34,7 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Chat Room'),
+          title: Text(AppLocalizations.of(context)!.chat_room),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -75,7 +75,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             borderSide:
                             const BorderSide(color: AppColors.blue),
                             borderRadius: BorderRadius.circular(50)),
-                        label: const Text("Ask Gemini..."),
+                        label: Text(AppLocalizations.of(context)!.ask_gemini),
                       ),
                     ),
                   ),
