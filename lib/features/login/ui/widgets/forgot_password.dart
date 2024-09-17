@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/theming/app_theme.dart';
 
 class ForgotPassword extends StatelessWidget {
@@ -15,7 +15,7 @@ class ForgotPassword extends StatelessWidget {
       ),
       onPressed: () {},
       child: Text(
-        "Forgot Password?",
+        AppLocalizations.of(context)!.forgot_password,
         style: AppTheme.font14BlackRegular,
       ),
     );

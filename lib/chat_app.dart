@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ChatApp extends StatelessWidget {
   final AppRouter appRouter;
 
@@ -22,6 +22,9 @@ class ChatApp extends StatelessWidget {
           BlocProvider(create: (_) => getIt<HomeCubit>(),),
         ],
         child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale("en"),
           debugShowCheckedModeBanner: false,
           builder: EasyLoading.init(),
           title: 'ChatMate',

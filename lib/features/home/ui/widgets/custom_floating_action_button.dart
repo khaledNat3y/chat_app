@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theming/app_colors.dart';
 import 'group_chat_form.dart';
-
 class CustomFloatingActionButton extends StatelessWidget {
   const CustomFloatingActionButton({
     super.key,

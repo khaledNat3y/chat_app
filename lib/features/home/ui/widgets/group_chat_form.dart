@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/helper/spacing.dart';
 import '../../../../core/theming/app_colors.dart';
 import '../../../../core/theming/app_theme.dart';
@@ -21,18 +21,20 @@ class GroupChatFormState extends State<GroupChatForm> {
   String? groupType;
   String? description;
   String? groupImage;
-
-  final List<String> groupTypes = ['Movies', 'Sports', 'General Chat'];
-
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    List<String> groupTypes = [
+      localizations.movies,
+      localizations.sport,
+      localizations.music];
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Create Chat Room',
+            AppLocalizations.of(context)!.create_chat_room,
             style: AppTheme.font20BlackMedium,
           ),
           verticalSpace(10),
@@ -50,7 +52,7 @@ class GroupChatFormState extends State<GroupChatForm> {
                   // Group Name Field
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Room Name',
+                      labelText: AppLocalizations.of(context)!.room_name,
                       labelStyle: AppTheme.font14GreyRegular,
                       border: const UnderlineInputBorder(
                         borderSide: BorderSide(color: AppColors.grey),
@@ -59,7 +61,7 @@ class GroupChatFormState extends State<GroupChatForm> {
                     onSaved: (value) => groupName = value,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a Room name';
+                        return AppLocalizations.of(context)!.please_enter_room_name;
                       }
                       return null;
                     },
@@ -68,7 +70,7 @@ class GroupChatFormState extends State<GroupChatForm> {
                   // Group Type Dropdown
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
-                      labelText: 'Room Type',
+                      labelText: AppLocalizations.of(context)!.room_type,
                       labelStyle: AppTheme.font14GreyRegular,
                       border: const OutlineInputBorder(
                           borderSide: BorderSide(color: AppColors.grey)),
@@ -88,7 +90,7 @@ class GroupChatFormState extends State<GroupChatForm> {
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please select a Room type';
+                        return AppLocalizations.of(context)!.please_enter_room_type;
                       }
                       return null;
                     },
@@ -97,7 +99,7 @@ class GroupChatFormState extends State<GroupChatForm> {
                   // Group Description Field
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Enter Room Description',
+                      labelText: AppLocalizations.of(context)!.room_description,
                       labelStyle: AppTheme.font14GreyRegular,
                       border: const UnderlineInputBorder(
                           borderSide: BorderSide(color: AppColors.grey)),
@@ -106,7 +108,7 @@ class GroupChatFormState extends State<GroupChatForm> {
                     onSaved: (value) => description = value,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a description';
+                        return AppLocalizations.of(context)!.please_enter_room_description;
                       }
                       return null;
                     },
@@ -135,7 +137,7 @@ class GroupChatFormState extends State<GroupChatForm> {
                               context); // Close the modal after creating the group
                         }
                       },
-                      child: const Text('Create Room'),
+                      child: Text(AppLocalizations.of(context)!.create_room),
                     ),
                   ),
                   verticalSpace(20)

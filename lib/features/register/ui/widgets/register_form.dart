@@ -5,7 +5,7 @@ import 'package:chat_app/core/helper/app_regex.dart';
 import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/features/register/ui/widgets/custom_text_form_field.dart';
 import '../../logic/register_cubit.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
 
@@ -27,43 +27,43 @@ class RegisterFormState extends State<RegisterForm> {
             children: [
               verticalSpace(height * 0.23),
               CustomTextFormField(
-                hintText: "First name",
+                hintText: AppLocalizations.of(context)!.first_name,
                 onChanged: (text){
                   context.read<RegisterCubit>().firstName = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
-                    return 'Please enter a first name';
+                    return AppLocalizations.of(context)!.please_enter_first_name;
                   }
                   return null;
                 },
               ),
               verticalSpace(height * 0.06),
               CustomTextFormField(
-                hintText: "Last name",
+                hintText: AppLocalizations.of(context)!.last_name,
                 onChanged: (text) {
                   context.read<RegisterCubit>().lastName = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
-                    return 'Please enter a last name';
+                    return AppLocalizations.of(context)!.please_enter_last_name;
                   }
                   return null;
                 },
               ),
               verticalSpace(height * 0.06),
               CustomTextFormField(
-                hintText: "Email",
+                hintText: AppLocalizations.of(context)!.email,
                 onChanged: (text) {
                   context.read<RegisterCubit>().email = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
-                    return 'Please enter an email';
+                    return AppLocalizations.of(context)!.please_enter_email;
                   }
                   final emailRegex = AppRegex.isEmailValid(text);
                   if (!emailRegex) {
-                    return 'Invalid email';
+                    return AppLocalizations.of(context)!.invalid_email;
                   }
                   return null;
                 },
@@ -83,14 +83,14 @@ class RegisterFormState extends State<RegisterForm> {
                         : Icons.visibility,
                   ),
                 ),
-                hintText: "Password",
+                hintText: AppLocalizations.of(context)!.password,
                 obscureText: context.read<RegisterCubit>().isObscureText,
                 onChanged: (text) {
                   context.read<RegisterCubit>().password = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
-                    return 'Please enter a password';
+                    return AppLocalizations.of(context)!.please_enter_password;
                   }
                   // final passwordRegex = AppRegex.isPasswordValid(text);
                   // if (!passwordRegex) {

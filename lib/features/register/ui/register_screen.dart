@@ -10,7 +10,7 @@ import 'package:chat_app/features/register/ui/widgets/register_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -32,13 +32,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: const Text("Success Register"),
+                title: Text(AppLocalizations.of(context)!.success_register),
                 actions: [
                   TextButton(
                     onPressed: () {
                       context.pushNamed(Routes.login);
                     },
-                    child: Text("Login", style: AppTheme.font13BlackRegular),
+                    child: Text(AppLocalizations.of(context)!.login, style: AppTheme.font13BlackRegular),
                   ),
                 ],
               );
@@ -53,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         } else {
-          EasyLoading.show(status: "Loading...");
+          EasyLoading.show(status: AppLocalizations.of(context)!.loading);
         }
       },
       child: Stack(
@@ -82,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               elevation: 0,
               backgroundColor: Colors.transparent,
               title: Text(
-                "Create Account",
+                AppLocalizations.of(context)!.create_account,
                 style: AppTheme.font24WhiteBold,
               ),
               centerTitle: true,
@@ -96,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       validateForm();
                     },
-                    text: "Create Account",
+                    text: AppLocalizations.of(context)!.create_account,
                     backgroundColor: AppColors.white,
                     color: AppColors.black.withOpacity(0.5),
                   ),

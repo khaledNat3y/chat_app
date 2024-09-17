@@ -1,7 +1,7 @@
 import 'package:chat_app/features/login/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/helper/app_regex.dart';
 import '../../../../core/helper/shared_preferences.dart';
 import '../../../../core/helper/spacing.dart';
@@ -24,18 +24,18 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           verticalSpace(screenHeight(context, 0.06)),
           CustomTextFormField(
-            hintText: "Email",
+            hintText: AppLocalizations.of(context)!.email,
             onChanged: (text) {
               context.read<LoginCubit>().email = text;
               _storeUserName(text);
             },
             validator: (text) {
               if (text == null || text.trim().isEmpty) {
-                return 'Please enter an email';
+                return AppLocalizations.of(context)!.please_enter_email;
               }
               final emailRegex = AppRegex.isEmailValid(text);
               if (!emailRegex) {
-                return 'Invalid email';
+                return AppLocalizations.of(context)!.invalid_email;
               }
               return null;
             },
@@ -52,14 +52,14 @@ class _LoginFormState extends State<LoginForm> {
                 context.read<LoginCubit>().isObscureText ? Icons.visibility_off : Icons.visibility,
               ),
             ),
-            hintText: "Password",
+            hintText: AppLocalizations.of(context)!.password,
             obscureText: context.read<LoginCubit>().isObscureText,
             onChanged: (text) {
               context.read<LoginCubit>().password = text;
             },
             validator: (text) {
               if (text == null || text.trim().isEmpty) {
-                return 'Please enter a password';
+                return AppLocalizations.of(context)!.please_enter_password;
               }
               // final passwordRegex = AppRegex.isPasswordValid(text);
               // if (!passwordRegex) {

@@ -1,8 +1,9 @@
+import 'package:chat_app/core/helper/extensions.dart';
 import 'package:chat_app/features/home/data/models/drawer_item_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/helper/shared_preferences.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
@@ -33,13 +34,15 @@ class CustomDrawer extends StatelessWidget {
   List<DrawerItemModel> _getDrawerItems(BuildContext context) {
     return [
       DrawerItemModel(
-        title: "S e t t i n g s",
+        title: AppLocalizations.of(context)!.settings,
         icon: FontAwesomeIcons.gear,
         color: AppColors.blue,
-        onTap: () {},
+        onTap: () {
+          context.pushNamed(Routes.settings);
+        },
       ),
       DrawerItemModel(
-        title: "L o g o u t",
+        title: AppLocalizations.of(context)!.log_out,
         icon: FontAwesomeIcons.arrowRightFromBracket,
         color: AppColors.red,
         onTap: () {
@@ -59,7 +62,7 @@ class CustomDrawer extends StatelessWidget {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error signing out: $e'),
+          content: Text('${AppLocalizations.of(context)!.error_sign_out}: $e'),
           backgroundColor: AppColors.red,
         ),
       );
