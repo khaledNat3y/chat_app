@@ -1,4 +1,5 @@
 import 'package:chat_app/features/login/data/login_repository/login_remote_data_source/login_remote_data_source.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 @injectable
@@ -19,10 +20,14 @@ class LoginRepository {
     }
   }
   Future<void> signInWithGoogle() async {
-    if (await internetConnectionChecker.hasConnection) {
-      await remoteDataSource.signInWithGoogle();
-    }else {
-      throw 'No Internet Connection';
+    try {
+      if (await internetConnectionChecker.hasConnection) {
+        await remoteDataSource.signInWithGoogle();
+      }else {
+        throw 'No Internet Connection';
+      }
+    }catch (e) {
+      rethrow;
     }
   }
 }

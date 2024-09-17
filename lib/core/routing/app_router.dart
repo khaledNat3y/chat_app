@@ -4,6 +4,7 @@ import 'package:chat_app/features/home/ui/home.dart';
 import 'package:chat_app/features/login/logic/login_cubit.dart';
 import 'package:chat_app/features/login/ui/login_screen.dart';
 import 'package:chat_app/features/register/ui/register_screen.dart';
+import 'package:chat_app/features/settings/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,6 +30,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const Home());
       case Routes.chatRoom:
         return MaterialPageRoute(builder: (_) => const ChatRoom());
+      case Routes.settings:
+        return MaterialPageRoute(builder: (_) => const Settings());
       default:
         return MaterialPageRoute(builder: (_) => NoDefinedRouteScreen(settings: settings,));
     }

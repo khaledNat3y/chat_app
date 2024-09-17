@@ -6,7 +6,7 @@ import 'dart:io'; // For handling file
 import '../../../../core/helper/shared_preferences.dart';
 import '../../../../core/helper/spacing.dart';
 import '../../../../core/theming/app_theme.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CustomDrawerHeader extends StatefulWidget {
   const CustomDrawerHeader({super.key});
 
@@ -89,10 +89,10 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
           ),
           RichText(
             text: TextSpan(
-                text: "Welcome ",
+                text: AppLocalizations.of(context)!.welcome_message,
                 style: AppTheme.font20BlackMedium,
                 children: [
-                  TextSpan(text: firstName ?? firstNameFromGoogleAccount, style: AppTheme.font20BlueMedium),
+                  TextSpan(text: "khaled", style: AppTheme.font20BlueMedium),
                 ]),
           ),
         ],

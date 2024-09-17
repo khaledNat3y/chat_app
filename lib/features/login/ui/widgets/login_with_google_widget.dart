@@ -1,4 +1,4 @@
-import 'package:chat_app/core/routing/app_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:chat_app/core/theming/app_theme.dart';
 import 'package:chat_app/features/login/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class LoginWithGoogleWidget extends StatelessWidget {
               height: MediaQuery.sizeOf(context).width * 0.1,
             ),
             Text(
-              'Sign in with Google',
+              AppLocalizations.of(context)!.sign_in_with_Google,
               style: AppTheme.font14BlackRegular,
             ),
           ],
