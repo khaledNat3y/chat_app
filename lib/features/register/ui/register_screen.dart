@@ -24,26 +24,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
     double height = MediaQuery.of(context).size.height;
 
     return BlocListener<RegisterCubit, RegisterState>(
-      listener: (context, state) async {
+      listener: (context, state) {
         if (state is RegisterSuccess) {
           EasyLoading.dismiss();
           showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text(AppLocalizations.of(context)!.success_register),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      context.pushNamed(Routes.login);
-                    },
-                    child: Text(AppLocalizations.of(context)!.login, style: AppTheme.font13BlackRegular),
-                  ),
-                ],
-              );
-            },
-          );
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(AppLocalizations.of(context)!.success_register),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, Routes.login, (route) => false);
+                        },
+                        child:
+                        Text("Login", style: AppTheme.font13BlackRegular))
+                  ],
+                );
+              });
         } else if (state is RegisterError) {
           EasyLoading.dismiss();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -53,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         } else {
-          EasyLoading.show(status: AppLocalizations.of(context)!.loading);
+          EasyLoading.show(status: "Loading...");
         }
       },
       child: Stack(
@@ -71,18 +71,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               leading: IconButton(
-                onPressed: () {
-                  context.pop();
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: AppColors.white,
-                ),
-              ),
+                  onPressed: () {
+                    context.pop();
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: AppColors.white,
+                  )),
               elevation: 0,
               backgroundColor: Colors.transparent,
               title: Text(
-                AppLocalizations.of(context)!.create_account,
+                "Create Account",
                 style: AppTheme.font24WhiteBold,
               ),
               centerTitle: true,
@@ -96,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       validateForm();
                     },
-                    text: AppLocalizations.of(context)!.create_account,
+                    text: "Create Account",
                     backgroundColor: AppColors.white,
                     color: AppColors.black.withOpacity(0.5),
                   ),

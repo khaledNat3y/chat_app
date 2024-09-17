@@ -15,7 +15,7 @@
   "room_name": "اسم الغرفة",
   "room_type": "نوع الغرفة",
   "room_description": "ادخل وصف الغرفة",
-  "no_room_found": "غرفة غير موجودة",
+  "no_room_found": "لا يوجد غرف",
   "browse": "تصفح",
   "there_is_nothing_to_browse": "لا يوجد شيء للتصفح",
   "welcome_message": "مرحبا",
@@ -36,6 +36,8 @@
   "please_enter_room_type" : "من فضلك ادخل نوع الغرفة",
   "movies": "الافلام",
   "music": "الموسيقى",
-  "sport": "الرياضة"
+  "sport": "الرياضة",
+  "chat_room": "غرفة الدردشة",
+  "ask_gemini": "اسأل جيميني..."
 
 }

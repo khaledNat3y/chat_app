@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/chat_room/ui/chat_room.dart';
-import '../../features/home/logic/home_cubit.dart';
-import '../../features/register/data/register_repository/register_repository.dart';
 import '../../features/register/logic/register_cubit.dart';
 
 class AppRouter {
@@ -31,7 +29,7 @@ class AppRouter {
       case Routes.chatRoom:
         return MaterialPageRoute(builder: (_) => const ChatRoom());
       case Routes.settings:
-        return MaterialPageRoute(builder: (_) => const Settings());
+        return MaterialPageRoute(builder: (_) =>  const Settings());
       default:
         return MaterialPageRoute(builder: (_) => NoDefinedRouteScreen(settings: settings,));
     }

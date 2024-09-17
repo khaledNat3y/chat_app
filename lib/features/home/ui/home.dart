@@ -2,7 +2,6 @@ import 'package:chat_app/features/home/ui/widgets/browse_view.dart';
 import 'package:chat_app/features/home/ui/widgets/custom_drawer.dart';
 import 'package:chat_app/features/home/ui/widgets/custom_floating_action_button.dart';
 import 'package:chat_app/features/home/ui/widgets/my_rooms_view.dart';
-import 'package:chat_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,8 +25,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
-        overlays: [SystemUiOverlay.top]);
+    SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.immersiveSticky, overlays: [SystemUiOverlay.top]);
   }
 
   @override
@@ -53,7 +52,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.transparent,
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButtonLocation: FloatingActionButtonLocation
+                .endFloat,
             floatingActionButton: const CustomFloatingActionButton(),
             drawer: const CustomDrawer(),
             appBar: AppBar(
@@ -77,8 +77,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               actions: [
                 IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.search,
-                      color: AppColors.white, size: 34),
+                  icon: const Icon(Icons.search, color: AppColors.white, size: 34),
                 )
               ],
               bottom: TabBar(
@@ -110,7 +109,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               children: [
                 Padding(
                   padding:
-                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
+                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
                   child: const MyRoomsView(),
                 ),
                 const BrowseView(),

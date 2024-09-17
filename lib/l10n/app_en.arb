@@ -36,6 +36,8 @@
   "please_enter_room_type" : "Please enter room type",
   "movies": "Movies",
   "music": "Music",
-  "sport": "Sport"
+  "sport": "Sport",
+  "chat_room": "Chat Room",
+  "ask_gemini": "Ask Gemini..."
 
 }

@@ -1,16 +1,11 @@
 import 'package:chat_app/core/helper/shared_preferences.dart';
-import 'package:chat_app/chat_app.dart';
 import 'package:chat_app/core/helper/extensions.dart';
-import 'package:chat_app/core/helper/shared_preferences.dart';
-import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/core/routing/routes.dart';
 import 'package:chat_app/features/home/logic/home_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/theming/app_colors.dart';
-import '../../../../core/theming/app_theme.dart';
-import '../../../chat_room/ui/chat_room.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'custom_card_widget.dart';
 
 class MyRoomsView extends StatefulWidget {
@@ -41,7 +36,7 @@ class _MyRoomsViewState extends State<MyRoomsView> {
 
   @override
   Widget build(BuildContext context) {
-    String currentTime = DateFormat('h:mm a')
+    DateFormat('h:mm a')
         .format(DateTime.now()); // Format time to 12-hour format with AM/PM
 
     return BlocBuilder<HomeCubit, HomeState>(
@@ -105,8 +100,8 @@ class _MyRoomsViewState extends State<MyRoomsView> {
             ],
           );
         } else {
-          return const Center(
-            child: Text('No groups found.'),
+          return Center(
+            child: Text(AppLocalizations.of(context)!.no_room_found),
           );
         }
       },

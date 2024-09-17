@@ -1,6 +1,14 @@
 part of 'settings_cubit.dart';
 
 @immutable
-sealed class SettingsState {}
+sealed class SettingState {}
 
-final class SettingsInitial extends SettingsState {}
+final class SettingInitial extends SettingState {
+  final Locale locale;
+  SettingInitial(this.locale);
+}
+
+final class LanguageChanged extends SettingState {
+  final Locale locale;
+  LanguageChanged(this.locale);
+}
