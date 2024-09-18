@@ -40,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               context, Routes.login, (route) => false);
                         },
                         child:
-                        Text("Login", style: AppTheme.font13BlackRegular))
+                        Text(AppLocalizations.of(context)!.login, style: AppTheme.font13BlackRegular))
                   ],
                 );
               });
@@ -53,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         } else {
-          EasyLoading.show(status: "Loading...");
+          EasyLoading.show(status: AppLocalizations.of(context)!.loading);
         }
       },
       child: Stack(
@@ -81,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               elevation: 0,
               backgroundColor: Colors.transparent,
               title: Text(
-                "Create Account",
+                AppLocalizations.of(context)!.create_account,
                 style: AppTheme.font24WhiteBold,
               ),
               centerTitle: true,
@@ -95,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       validateForm();
                     },
-                    text: "Create Account",
+                    text: AppLocalizations.of(context)!.create_account,
                     backgroundColor: AppColors.white,
                     color: AppColors.black.withOpacity(0.5),
                   ),

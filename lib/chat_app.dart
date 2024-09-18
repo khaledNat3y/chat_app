@@ -28,12 +28,12 @@ class ChatApp extends StatelessWidget {
             return MaterialApp(
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
-              locale: locale,  // Update locale from SettingsCubit
+              locale: locale,
               debugShowCheckedModeBanner: false,
               builder: EasyLoading.init(),
               title: 'ChatMate',
               onGenerateRoute: appRouter.generateRoute,
-              initialRoute: Routes.home,
+              initialRoute: Routes.login,
             );
           },
         ),
