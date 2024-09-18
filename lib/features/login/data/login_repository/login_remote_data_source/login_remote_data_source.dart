@@ -9,24 +9,21 @@ class LoginRemoteDataSource {
     required String password,
   }) async {
     try {
-      // Attempt to sign in with the provided email and password
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password
+      );
     } on FirebaseAuthException catch (e) {
-      // Handle specific Firebase authentication errors
       if (e.code == 'user-not-found') {
-        throw 'No user found for that email.';
+        print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        throw 'Wrong password provided for that user.';
-      } else {
-        throw 'Authentication failed. Please try again.';
+        print('Wrong password provided for that user.');
       }
-    } catch (e) {
-      rethrow;
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+
+  Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -40,6 +37,6 @@ class LoginRemoteDataSource {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

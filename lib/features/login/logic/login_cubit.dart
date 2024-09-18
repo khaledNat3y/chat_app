@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/features/login/data/login_repository/login_repository.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -32,7 +33,9 @@ class LoginCubit extends Cubit<LoginState> {
       await repository.signInWithGoogle();
       emit(LoginSuccess());
     }catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       emit(LoginFailure(message: "Login failed. Please check your credentials and try again."));
     }
   }

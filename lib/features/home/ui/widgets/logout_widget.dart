@@ -1,9 +1,5 @@
-import 'package:chat_app/core/helper/extensions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/helper/shared_preferences.dart';
-import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/app_colors.dart';
 
 class LogoutWidget extends StatelessWidget {

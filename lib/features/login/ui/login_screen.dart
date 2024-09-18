@@ -15,7 +15,7 @@ import '../../../core/theming/app_colors.dart';
 import '../../../core/theming/app_theme.dart';
 import '../../register/ui/widgets/custom_button.dart';
 import '../logic/login_cubit.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
         BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginLoading) {
-              EasyLoading.show(status: 'Loading...');
+              EasyLoading.show(status: AppLocalizations.of(context)!.loading);
             } else if (state is LoginFailure) {
               EasyLoading.dismiss();
               ScaffoldMessenger.of(context).showSnackBar(
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               title: Text(
-                "Login",
+                AppLocalizations.of(context)!.login,
                 style: AppTheme.font24WhiteBold,
               ),
               toolbarHeight: MediaQuery.of(context).size.height * 0.12,
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         validateForm();
                       },
-                      text: "Login",
+                      text: AppLocalizations.of(context)!.login,
                       color: AppColors.white,
                       backgroundColor: AppColors.blue,
                     ),
