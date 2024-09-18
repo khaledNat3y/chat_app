@@ -20,9 +20,10 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> loginWithFirebase() async {
     emit(LoginLoading());
     try {
-     await repository.loginWithFirebase(email: email, password: password);
+      await repository.loginWithFirebase(email: email, password: password);
       emit(LoginSuccess());
     } catch (e) {
+      print(e.toString());
       emit(LoginFailure(message: "Login failed. Please check your credentials and try again."));
     }
   }
@@ -33,9 +34,7 @@ class LoginCubit extends Cubit<LoginState> {
       await repository.signInWithGoogle();
       emit(LoginSuccess());
     }catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
+      print(e.toString());
       emit(LoginFailure(message: "Login failed. Please check your credentials and try again."));
     }
   }

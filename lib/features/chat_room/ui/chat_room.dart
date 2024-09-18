@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../core/helper/shared_preferences.dart';
 import '../../../core/theming/app_colors.dart';
+import '../data/models/message_model.dart';
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({super.key});
@@ -155,17 +156,3 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 }
 
-
-
-class Message {
-  final bool isUser;
-  final String message;
-  final DateTime date;
-
-  Message({
-    required this.isUser,
-    required this.message,
-    required this.date,
-  });
-}
-// AIzaSyBCb1wOnFEWNqedFftsQwJGc1YGw6G5Z3A

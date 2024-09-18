@@ -110,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void validateForm() {
-    if (context.read<RegisterCubit>().formKey.currentState!.validate()) {
+    if (context.read<RegisterCubit>().formKey.currentState?.validate() ?? false) {
       context.read<RegisterCubit>().registerWithFirebase();
     }
   }

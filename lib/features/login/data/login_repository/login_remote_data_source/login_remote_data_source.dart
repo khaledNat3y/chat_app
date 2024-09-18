@@ -9,34 +9,41 @@ class LoginRemoteDataSource {
     required String password,
   }) async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password
-      );
+      // Attempt to sign in with the provided email and password
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
+      // Handle specific Firebase authentication errors
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        throw 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        throw 'Wrong password provided for that user.';
+      } else {
+        throw 'Authentication failed. Please try again.';
       }
+    } catch (e) {
+      rethrow;
     }
   }
 
+  Future<UserCredential> signInWithGoogle() async {
+   try {
+     // Trigger the authentication flow
+     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-  Future<void> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+     // Obtain the auth details from the request
+     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+     // Create a new credential
+     final credential = GoogleAuthProvider.credential(
+       accessToken: googleAuth?.accessToken,
+       idToken: googleAuth?.idToken,
+     );
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    await FirebaseAuth.instance.signInWithCredential(credential);
+     // Once signed in, return the UserCredential
+     return await FirebaseAuth.instance.signInWithCredential(credential);
+   }catch(e){
+     rethrow;
+   }
   }
 }

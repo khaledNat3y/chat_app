@@ -2,9 +2,10 @@ import 'package:chat_app/core/theming/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:injectable/injectable.dart';
 import '../../../core/helper/shared_preferences.dart';
 import '../logic/settings_cubit.dart';
-
+@injectable
 class Settings extends StatefulWidget {
   const Settings({super.key});
 

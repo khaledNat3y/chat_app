@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/features/register/data/register_repository/register_repository.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -22,6 +23,9 @@ class RegisterCubit extends Cubit<RegisterState> {
       await repo.registerWithFirebase(email: email, password: password);
       emit(RegisterSuccess());
     } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
       emit(RegisterError(message: e.toString()));
     }
   }
