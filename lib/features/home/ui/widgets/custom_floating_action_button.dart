@@ -75,7 +75,7 @@ class GroupChatFormState extends State<GroupChatForm> {
           SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.4,
             height: MediaQuery.sizeOf(context).width * 0.2,
-            child: Image.asset("assets/images/group_image.png"),
+            child: Image.asset("assets/images/chat_app_icon.png"),
           ),
           verticalSpace(20),
           Form(

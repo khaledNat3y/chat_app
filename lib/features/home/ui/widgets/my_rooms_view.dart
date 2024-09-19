@@ -1,6 +1,8 @@
 import 'package:chat_app/chat_app.dart';
+import 'package:chat_app/core/helper/extensions.dart';
 import 'package:chat_app/core/helper/shared_preferences.dart';
 import 'package:chat_app/core/helper/spacing.dart';
+import 'package:chat_app/core/routing/routes.dart';
 import 'package:chat_app/features/home/logic/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,15 +72,20 @@ class _MyRoomsViewState extends State<MyRoomsView> {
                       key: "groupCreatedTime",
                       value: state.groups[index].currentTime);
 
-                  return CustomCardWidget(
-                    title: state.groups[index].title,
-                    description: state.groups[index].description,
-                    currentTime: state.groups[index].currentTime,
-                    imagePath: isMovie
-                        ? "assets/images/movies.png"
-                        : isSport
-                        ? "assets/images/sports.png"
-                        : "assets/images/music.png",
+                  return GestureDetector(
+                    onTap: () {
+                      context.pushNamed(Routes.chatRoom);
+                    },
+                    child: CustomCardWidget(
+                      title: state.groups[index].title,
+                      description: state.groups[index].description,
+                      currentTime: state.groups[index].currentTime,
+                      imagePath: isMovie
+                          ? "assets/images/movies.png"
+                          : isSport
+                          ? "assets/images/sports.png"
+                          : "assets/images/music.png",
+                    ),
                   );
                 },
               ),

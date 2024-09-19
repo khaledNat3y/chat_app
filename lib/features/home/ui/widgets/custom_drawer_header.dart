@@ -15,7 +15,7 @@ class CustomDrawerHeader extends StatefulWidget {
 }
 
 class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
-  String firstName = SharedPreferencesHelper.getData(key: "FirstName") ?? "";
+  String? firstName = SharedPreferencesHelper.getData(key: "FirstName") ?? "";
   File? _profileImage;
 
   @override
@@ -24,6 +24,48 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
     _loadProfileImage(); // Load the saved image on widget initialization
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return DrawerHeader(
+      margin: EdgeInsets.symmetric(vertical: 10.h),
+      decoration: const BoxDecoration(),
+
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "MindMate",
+            style: AppTheme.font24BlueBold,
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: _pickImage,
+              child: CircleAvatar(
+                radius: 40.r,
+                backgroundColor: Colors.grey.shade300,
+                backgroundImage: _profileImage != null ? FileImage(_profileImage!) : null,
+                child: _profileImage == null
+                    ? const Icon(
+                  Icons.person,
+                  size: 40,
+                  color: Colors.white,
+                )
+                    : null,
+              ),
+            ),
+          ),
+          RichText(
+            text: TextSpan(
+                text: "Welcome ",
+                style: AppTheme.font20BlackMedium,
+                children: [
+                  TextSpan(text: firstName ?? "khaled", style: AppTheme.font20BlueMedium),
+                ]),
+          ),
+        ],
+      ),
+    );
+  }
   // Load the saved image path from SharedPreferences
   Future<void> _loadProfileImage() async {
     String? imagePath = SharedPreferencesHelper.getData(key: "profileImagePath");
@@ -55,49 +97,5 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
       // Handle the case when permission is not granted
       print('Permission not granted');
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DrawerHeader(
-      margin: EdgeInsets.symmetric(vertical: 10.h),
-      decoration: const BoxDecoration(),
-
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Chat App",
-            style: AppTheme.font24BlueBold,
-          ),
-          verticalSpace(10),
-          Expanded(
-            child: GestureDetector(
-              onTap: _pickImage,
-              child: CircleAvatar(
-                radius: 40.r,
-                backgroundColor: Colors.grey.shade300,
-                backgroundImage: _profileImage != null ? FileImage(_profileImage!) : null,
-                child: _profileImage == null
-                    ? const Icon(
-                  Icons.person,
-                  size: 40,
-                  color: Colors.white,
-                )
-                    : null,
-              ),
-            ),
-          ),
-          RichText(
-            text: TextSpan(
-                text: "Welcome ",
-                style: AppTheme.font20BlackMedium,
-                children: [
-                  TextSpan(text: firstName, style: AppTheme.font20BlueMedium),
-                ]),
-          ),
-        ],
-      ),
-    );
   }
 }
