@@ -1,3 +1,4 @@
+import 'package:chat_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theming/app_theme.dart';
@@ -15,7 +16,7 @@ class ForgotPassword extends StatelessWidget {
       ),
       onPressed: () {},
       child: Text(
-        "Forgot Password?",
+        S.of(context).forgot_password,
         style: AppTheme.font14BlackRegular,
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:chat_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class BrowseView extends StatelessWidget {
@@ -5,6 +6,6 @@ class BrowseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('there is nothing to browse'),);
+    return Center(child: Text(S.of(context).there_is_nothing_to_browse),);
   }
 }

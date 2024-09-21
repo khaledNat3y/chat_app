@@ -1,5 +1,4 @@
 import 'package:chat_app/core/constants/app_assets.dart';
-import 'package:chat_app/core/di/dependency_injection.dart';
 import 'package:chat_app/core/helper/extensions.dart';
 import 'package:chat_app/core/helper/spacing.dart';
 import 'package:chat_app/core/routing/routes.dart';
@@ -8,6 +7,7 @@ import 'package:chat_app/core/theming/app_theme.dart';
 import 'package:chat_app/features/register/logic/register_cubit.dart';
 import 'package:chat_app/features/register/ui/widgets/custom_button.dart';
 import 'package:chat_app/features/register/ui/widgets/register_form.dart';
+import 'package:chat_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -33,13 +33,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: const Text("Success Register"),
+                title: Text(S.of(context).success_register),
                 actions: [
                   TextButton(
                     onPressed: () {
-                      context.pushReplacementNamed(Routes.login);
+                      Navigator.of(context).pushReplacementNamed(Routes.login);
                     },
-                    child: Text("Login", style: AppTheme.font13BlackRegular),
+                    child: Text(S.of(context).login, style: AppTheme.font13BlackRegular),
                   ),
                 ],
               );
@@ -54,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         } else {
-          EasyLoading.show(status: "Loading...");
+          EasyLoading.show(status: S.of(context).loading);
         }
       },
       child: Stack(
@@ -83,7 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               elevation: 0,
               backgroundColor: Colors.transparent,
               title: Text(
-                "Create Account",
+                S.of(context).create_account,
                 style: AppTheme.font24WhiteBold,
               ),
               centerTitle: true,
@@ -97,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       validateForm();
                     },
-                    text: "Create Account",
+                    text: S.of(context).create_account,
                     backgroundColor: AppColors.white,
                     color: AppColors.black.withOpacity(0.5),
                   ),

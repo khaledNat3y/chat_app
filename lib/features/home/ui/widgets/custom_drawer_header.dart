@@ -1,12 +1,14 @@
+import 'package:chat_app/core/helper/spacing.dart';
+import 'package:chat_app/generated/l10n.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io'; // For handling file
 import '../../../../core/helper/shared_preferences.dart';
-import '../../../../core/helper/spacing.dart';
 import '../../../../core/theming/app_theme.dart';
-
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CustomDrawerHeader extends StatefulWidget {
   const CustomDrawerHeader({super.key});
 
@@ -15,7 +17,8 @@ class CustomDrawerHeader extends StatefulWidget {
 }
 
 class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
-  String firstName = SharedPreferencesHelper.getData(key: "FirstName") ?? "";
+  String? firstName = SharedPreferencesHelper.getData(key: "FirstName");
+  String firstNameFromGoogleAccount = SharedPreferencesHelper.getData(key: "FirstNameGoogle") ?? "Friend";
   File? _profileImage;
 
   @override
@@ -49,28 +52,30 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
         // Save the selected image path to SharedPreferences
         SharedPreferencesHelper.setData(key: "profileImagePath", value: pickedFile.path);
 
-        print('Image selected: ${pickedFile.path}');
+        if (kDebugMode) {
+          print('Image selected: ${pickedFile.path}');
+        }
       }
     } else {
       // Handle the case when permission is not granted
-      print('Permission not granted');
+      if (kDebugMode) {
+        print('Permission not granted');
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
-      margin: EdgeInsets.symmetric(vertical: 10.h),
       decoration: const BoxDecoration(),
 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Chat App",
+            "MindMate",
             style: AppTheme.font24BlueBold,
           ),
-          verticalSpace(10),
           Expanded(
             child: GestureDetector(
               onTap: _pickImage,
@@ -90,10 +95,10 @@ class CustomDrawerHeaderState extends State<CustomDrawerHeader> {
           ),
           RichText(
             text: TextSpan(
-                text: "Welcome ",
+                text: S.of(context).welcome_message,
                 style: AppTheme.font20BlackMedium,
                 children: [
-                  TextSpan(text: firstName, style: AppTheme.font20BlueMedium),
+                  TextSpan(text: firstName ?? firstNameFromGoogleAccount, style: AppTheme.font20BlueMedium),
                 ]),
           ),
         ],

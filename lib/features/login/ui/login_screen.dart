@@ -3,6 +3,7 @@ import 'package:chat_app/features/login/ui/widgets/dont_have_account.dart';
 import 'package:chat_app/features/login/ui/widgets/forgot_password.dart';
 import 'package:chat_app/features/login/ui/widgets/login_form.dart';
 import 'package:chat_app/features/login/ui/widgets/login_with_google_widget.dart';
+import 'package:chat_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -40,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
         BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginLoading) {
-              EasyLoading.show(status: 'Loading...');
+              EasyLoading.show(status: S.of(context).loading);
             } else if (state is LoginFailure) {
               EasyLoading.dismiss();
               ScaffoldMessenger.of(context).showSnackBar(
@@ -59,11 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               title: Text(
-                "Login",
+                S.of(context).login,
                 style: AppTheme.font24WhiteBold,
               ),
               toolbarHeight: MediaQuery.of(context).size.height * 0.12,
               centerTitle: true,
+              automaticallyImplyLeading: false,
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -81,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         validateForm();
                       },
-                      text: "Login",
+                      text: S.of(context).login,
                       color: AppColors.white,
                       backgroundColor: AppColors.blue,
                     ),

@@ -1,4 +1,5 @@
 import 'package:chat_app/core/theming/app_colors.dart';
+import 'package:chat_app/generated/l10n.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -21,14 +22,15 @@ class DontHaveAccount extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(
-              text: "Don't have an account? ",
+              text: S.of(context).dont_have_account ,
               style: AppTheme.font14BlackRegular,
             ),
             TextSpan(
-              recognizer: TapGestureRecognizer()..onTap = () {
-                Navigator.pushReplacementNamed(context, Routes.register);
-              },
-              text: "Sign up",
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.pushNamed(context, Routes.register);
+                },
+              text: S.of(context).sign_up,
               style: AppTheme.font18GreyBold.copyWith(color: AppColors.blue),
             ),
           ],

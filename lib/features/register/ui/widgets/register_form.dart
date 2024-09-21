@@ -1,4 +1,4 @@
-import 'package:chat_app/core/helper/shared_preferences.dart';
+import 'package:chat_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,43 +28,43 @@ class RegisterFormState extends State<RegisterForm> {
             children: [
               verticalSpace(height * 0.23),
               CustomTextFormField(
-                hintText: "First name",
+                hintText: S.of(context).first_name,
                 onChanged: (text){
                   context.read<RegisterCubit>().firstName = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
-                    return 'Please enter a first name';
+                    return S.of(context).please_enter_first_name;
                   }
                   return null;
                 },
               ),
               verticalSpace(height * 0.06),
               CustomTextFormField(
-                hintText: "Last name",
+                hintText: S.of(context).last_name,
                 onChanged: (text) {
                   context.read<RegisterCubit>().lastName = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
-                    return 'Please enter a last name';
+                    return S.of(context).please_enter_last_name;
                   }
                   return null;
                 },
               ),
               verticalSpace(height * 0.06),
               CustomTextFormField(
-                hintText: "Email",
+                hintText: S.of(context).email,
                 onChanged: (text) {
                   context.read<RegisterCubit>().email = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
-                    return 'Please enter an email';
+                    return S.of(context).please_enter_email;
                   }
                   final emailRegex = AppRegex.isEmailValid(text);
                   if (!emailRegex) {
-                    return 'Invalid email';
+                    return S.of(context).invalid_email;
                   }
                   return null;
                 },
@@ -84,14 +84,14 @@ class RegisterFormState extends State<RegisterForm> {
                         : Icons.visibility,
                   ),
                 ),
-                hintText: "Password",
+                hintText: S.of(context).password,
                 obscureText: context.read<RegisterCubit>().isObscureText,
                 onChanged: (text) {
                   context.read<RegisterCubit>().password = text;
                 },
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
-                    return 'Please enter a password';
+                    return S.of(context).please_enter_password;
                   }
                   return null;
                 },

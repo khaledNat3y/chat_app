@@ -1,14 +1,12 @@
-import 'package:chat_app/chat_app.dart';
+import 'package:chat_app/core/helper/extensions.dart';
 import 'package:chat_app/core/helper/shared_preferences.dart';
-import 'package:chat_app/core/helper/spacing.dart';
+import 'package:chat_app/core/routing/routes.dart';
 import 'package:chat_app/features/home/logic/home_cubit.dart';
+import 'package:chat_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart'; // Import for formatting date and time
 
-import '../../../../core/theming/app_colors.dart';
-import '../../../../core/theming/app_theme.dart';
 import 'custom_card_widget.dart';
 
 class MyRoomsView extends StatefulWidget {
@@ -41,9 +39,6 @@ class _MyRoomsViewState extends State<MyRoomsView> {
 
   @override
   Widget build(BuildContext context) {
-    String currentTime = DateFormat('h:mm a').format(
-        DateTime.now()); // Format time to 12-hour format with AM/PM
-
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         if (state is HomeGroupLoading) {
@@ -56,10 +51,13 @@ class _MyRoomsViewState extends State<MyRoomsView> {
                 ),
                 itemCount: state.groups.length,
                 itemBuilder: (context, index) {
-                  bool isMovie =
-                  state.groups[index].groupType.contains("Movies");
-                  bool isSport =
-                  state.groups[index].groupType.contains("Sports");
+                  // Get the groupType value and ensure it's case-insensitive
+                  String groupType = state.groups[index].groupType.trim().toLowerCase();
+
+                  // Correct comparison to check group type
+                  bool isMovie = groupType == "movies";
+                  bool isSport = groupType == "sport";
+                  bool isMusic = groupType == "music";
 
                   // Save the group details when building the widget
                   SharedPreferencesHelper.setData(
@@ -70,16 +68,23 @@ class _MyRoomsViewState extends State<MyRoomsView> {
                       key: "groupCreatedTime",
                       value: state.groups[index].currentTime);
 
-                  return CustomCardWidget(
-                    title: state.groups[index].title,
-                    description: state.groups[index].description,
-                    currentTime: state.groups[index].currentTime,
-                    imagePath: isMovie
-                        ? "assets/images/movies.png"
-                        : isSport
-                        ? "assets/images/sports.png"
-                        : "assets/images/music.png",
+                  return GestureDetector(
+                    onTap: () {
+                      context.pushNamed(Routes.chatRoom);
+                    },
+                    child: CustomCardWidget(
+                      title: state.groups[index].title,
+                      description: state.groups[index].description,
+                      currentTime: state.groups[index].currentTime,
+                      // Display the correct image based on room type
+                      imagePath: isMovie
+                          ? "assets/images/movies.png"
+                          : isSport
+                              ? "assets/images/sports.png"
+                              : "assets/images/music.png", // Default if no match
+                    ),
                   );
+
                 },
               ),
               // Display the saved group details if they exist
@@ -89,18 +94,20 @@ class _MyRoomsViewState extends State<MyRoomsView> {
                     title: savedTitle!,
                     description: "Persisted Description",
                     currentTime: savedTime!,
-                    imagePath: savedType!.contains("Movies")
+                    // Use savedType to select the correct image
+                    imagePath: savedType!.trim().toLowerCase() == "movies"
                         ? "assets/images/movies.png"
-                        : savedType!.contains("Sports")
-                        ? "assets/images/sports.png"
-                        : "assets/images/general_chat.png",
+                        : savedType!.trim().toLowerCase() == "sport"
+                            ? "assets/images/sports.png"
+                            : "assets/images/music.png", // Default if no match
                   ),
                 ),
+
             ],
           );
         } else {
-          return const Center(
-            child: Text('No groups found.'),
+          return Center(
+            child: Text(S.of(context).no_room_found),
           );
         }
       },
