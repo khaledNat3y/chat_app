@@ -1,6 +1,7 @@
 import 'package:chat_app/features/chat_room/ui/widgets/custom_chat_room_message.dart';
 import 'package:chat_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
 import '../../../core/helper/shared_preferences.dart';
@@ -18,9 +19,9 @@ class _ChatRoomState extends State<ChatRoom> {
   final TextEditingController _userMessageController = TextEditingController();
   final ScrollController _scrollController = ScrollController(); // Add ScrollController
 
-  static const apiKey = "AIzaSyBCb1wOnFEWNqedFftsQwJGc1YGw6G5Z3A";
+  static var apiKey = dotenv.env['API_KEY'];
 
-  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey as String);
 
   final List<Message> _messages = [];
 
